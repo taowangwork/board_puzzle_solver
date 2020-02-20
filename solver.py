@@ -22,11 +22,18 @@ def valid(board, pos, num):
     temp[row][col] = num
     ### Row condition: no three same numbers in a row
     col_left_limit = max(0, col-2)
+    col_right_limit = min(side,col+1)
     
-    for st in range(col_left_limit, col + 1):
+    for st in range(col_left_limit, col_right_limit):
         if temp[row][st] == temp[row][st + 1 ] == temp[row][st + 2 ]:
             return False
     return True
-              
     
-valid(board, pos, num)    
+    row_top_limit = max(0, row-2)
+    row_bottom_limit = min(side,row+1)
+    for st in range(row_top_limit, row_bottom_limit):
+        if temp[col][st] == temp[col][st + 1 ] == temp[col][st + 2 ]:
+            return False
+    return True                  
+    
+valid(board, pos, num)   
