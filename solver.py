@@ -3,7 +3,8 @@ import numpy as np
 ### The board only allows 0 and 1
 class alolboard():
     def __init__(self, board):
-        self.board = board
+        ### board is a np.array object, provide copy so that the original board will not change
+        self.board = board.copy()
         self.edge = len(board)
     
     ### compare if the two np arrays a and b are the same, conditioning on if both a and b does not contain unfilled numbers, i.e. 9
@@ -73,17 +74,17 @@ class alolboard():
         #### Rule 3: No identical rows or columns. This only applies when a column or row is complete.
         ###########################    
         ### Repeating column check
-        crow = board[row,:]
-        ccol = board[:, col]
+        crow = self.board[row,:]
+        ccol = self.board[:, col]
         for r in range(self.edge):
             if r != row:
-                if self.compare(crow, board[r,:]) == True:
+                if self.compare(crow, self.board[r,:]) == True:
                     print(" Repeating Row")
                     return False
         
         for c in range(self.edge):
             if c != col:
-                if self.compare(ccol, board[:,c]) == True:
+                if self.compare(ccol, self.board[:,c]) == True:
                     print(" Repeating Col")
                     return False
                 
@@ -124,6 +125,7 @@ class alolboard():
             if self.valid((row, col), num) == True:
                 ### recursively solve the current updated board
                 ### if the current guess is valid, then return True. This will happen when we reach the end of the board.
+                ### will not return until get to the end state
                 if self.solve() == True:
                     return True
         ### after going through all the guesses and not going into the next level, meaning the current board does not have any valid solution.
@@ -133,20 +135,20 @@ class alolboard():
         return False
     
     
-board = [
-    [9, 0, 9, 9, 0, 9],
-    [0, 9, 9, 0, 9, 1],
-    [0, 1, 9, 9, 9, 0],
-    [9, 0, 0, 9, 0, 9],
-    [0, 9, 1, 0, 9, 0],
-    [1, 9, 9, 9, 0, 0]
-]
+# board = [
+#     [9, 0, 9, 9, 0, 9],
+#     [0, 9, 9, 0, 9, 1],
+#     [0, 1, 9, 9, 9, 0],
+#     [9, 0, 0, 9, 0, 9],
+#     [0, 9, 1, 0, 9, 0],
+#     [1, 9, 9, 9, 0, 0]
+# ]
 
-board = np.array(board)
-print(board)
-pos = (0,0)
-num = 0
+# board = np.array(board)
+# print(board)
+# pos = (0,0)
+# num = 0
 
-b = alolboard(board)
-b.solve()
-b.board
+# b = alolboard(board)
+# b.solve()
+# b.board
