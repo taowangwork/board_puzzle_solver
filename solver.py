@@ -39,8 +39,8 @@ class alolboard():
         # loop through the starting position of the three consecutive elements
         for cl in range(chk_left_limit, chk_right_limit + 1):
             if temp[row, cl] == temp[row, cl + 1 ] == temp[row, cl + 2 ]:
-                print(row,cl)
-                print("Three consecutive fail - Row")
+                # print(row,cl)
+                # print("Three consecutive fail - Row")
                 return False
 
         ### Col condition: no three same numbers next to each other allowed
@@ -50,8 +50,8 @@ class alolboard():
         # loop through the starting position of the three consecutive elements
         for rw in range(chk_up_limit, chk_low_limit + 1):
             if temp[rw, col] == temp[rw + 1, col ] == temp[rw + 2, col ]:
-                print(rw,col)
-                print("Three consecutive fail - Col")
+                # print(rw,col)
+                # print("Three consecutive fail - Col")
                 return False        
             
         ###########################
@@ -62,12 +62,12 @@ class alolboard():
         # only need to check if the submitted number is valid. no need to care about the other number
         elem_cnt_col = (temp[:, col] == num).sum()
         if elem_cnt_col > cnt_lmt:
-            print("Number of Elements Fail - Column")
+            # print("Number of Elements Fail - Column")
             return False
 
         elem_cnt_row = (temp[row, :] == num).sum()
         if elem_cnt_row > cnt_lmt:
-            print("Number of Elements Fail - Row")
+            # print("Number of Elements Fail - Row")
             return False
             
         ###########################
@@ -79,13 +79,13 @@ class alolboard():
         for r in range(self.edge):
             if r != row:
                 if self.compare(crow, self.board[r,:]) == True:
-                    print(" Repeating Row")
+                    # print(" Repeating Row")
                     return False
         
         for c in range(self.edge):
             if c != col:
                 if self.compare(ccol, self.board[:,c]) == True:
-                    print(" Repeating Col")
+                    # print(" Repeating Col")
                     return False
                 
         ### if passes all the checks then valid

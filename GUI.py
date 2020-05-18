@@ -71,6 +71,19 @@ class GUI:
         
         ## the text displaying on the board
         self.text = None
+        
+        ## construct empty cordinates:
+        self.empty_cord_horizontal = []
+        for r in range(self.n_elems):
+            for c in range(self.n_elems):
+                if self.init_board[r, c] == 9:
+                    self.empty_cord_horizontal.append((r,c))
+        ## construct empty cordinates
+        self.empty_cord_vertical = []
+        for c in range(self.n_elems):
+            for r in range(self.n_elems):
+                if self.init_board[r, c] == 9:
+                    self.empty_cord_vertical.append((r,c))
     
     def show_grid(self):
         """
@@ -153,8 +166,29 @@ class GUI:
             self.selected = None
                 
             
-                      
-
+    def arrow_move(self,arrow):
+        """
+        move arrow
+        """         
+        ### if nothing is selected, then the top left cell will be selected
+        if self.selected == None:
+            self.selected = self.empty_cord_horizontal[0] 
+        else:
+            if arrow ==  pygame.K_RIGHT:
+                if self.selected != self.empty_cord_horizontal[-1]:
+                    self.selected = self.empty_cord_horizontal[self.empty_cord_horizontal.index(self.selected) + 1]
+            elif arrow == pygame.K_LEFT:
+                if self.selected != self.empty_cord_horizontal[0]:
+                    self.selected = self.empty_cord_horizontal[self.empty_cord_horizontal.index(self.selected) - 1]                
+        
+            elif arrow == pygame.K_UP:
+                if self.selected != self.empty_cord_vertical[0]:
+                    self.selected = self.empty_cord_vertical[self.empty_cord_vertical.index(self.selected) - 1]     
+                    
+            elif arrow == pygame.K_DOWN:
+                if self.selected != self.empty_cord_vertical[-1]:
+                    self.selected = self.empty_cord_vertical[self.empty_cord_vertical.index(self.selected) + 1]   
+                    
     def update_cell(self, number):
         """
         number: the number user input into the board
@@ -230,8 +264,9 @@ def run_game(grid):
             
                 
             ### update cell, if enterned anything other than the 0, 1 or delete, do not update 
-            if grid.selected != None:
-                if event.type == pygame.KEYDOWN:
+            
+            if event.type == pygame.KEYDOWN:
+                if grid.selected != None:
                     if event.key in [pygame.K_1, pygame.K_KP1]:
                         key = 1
                         grid.update_cell(key)
@@ -241,6 +276,10 @@ def run_game(grid):
                     elif event.key in [pygame.K_DELETE, pygame.K_BACKSPACE]:
                         key = 9
                         grid.update_cell(key)
+                ### arrow key, selected cell
+                if event.key in [pygame.K_RIGHT, pygame.K_LEFT, pygame.K_UP, pygame.K_DOWN]:
+                    grid.arrow_move(event.key)
+                    
                     
         ### refresh the board after each frame
         grid.refresh_win()
@@ -272,13 +311,4 @@ grid_length = 600
        
 grid1 = GUI(board_1, grid_length, bd1.board)
 run_game(grid1)
-
-
-
-
-
-
-
-
-
 
